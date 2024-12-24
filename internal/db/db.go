@@ -5,14 +5,12 @@ import (
 	"database/sql"
 	"time"
 
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
 )
 
 func New(addr string, maxOpenConn, maxIdleConn int, maxIdleTime string) (*sql.DB, error) {
 
-	db, err := sql.Open("mysql", "root:password@tcp(localhost:3306)/ecomm?parseTime=true")
-	// psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
-	// db, err := sql.Open("postgres", psqlInfo)
+	db, err := sql.Open("postgres", addr)
 	if err != nil {
 		return nil, err
 	}
