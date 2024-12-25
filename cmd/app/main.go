@@ -7,6 +7,7 @@ import (
 	"github.com/ekachaikeaw/social/internal/db"
 	"github.com/ekachaikeaw/social/internal/env"
 	"github.com/ekachaikeaw/social/internal/mailer"
+	"github.com/ekachaikeaw/social/internal/ratelimiter"
 	"github.com/ekachaikeaw/social/internal/store"
 	"github.com/ekachaikeaw/social/internal/store/cache"
 	"github.com/go-redis/redis/v8"
@@ -68,6 +69,11 @@ func main() {
 				iss:    "gohersocial",
 			},
 		},
+		rateLimiter: ratelimiter.Config{
+			RequestPerTimeFrame: env.GetInt("RATELIMITER_REQUESTS_COUNT", 20),
+			TimeFram:            time.Second * 5,
+			Enable:              env.GetBool("RATELIMITER_ENABLE", true),
+		},
 	}
 
 	// Logger
@@ -79,6 +85,8 @@ func main() {
 
 	logger := zap.Must(config.Build()).Sugar()
 	defer logger.Sync()
+
+	ratelimiter := ratelimiter.NewFixedWindowRateLimiter(cfg.rateLimiter.RequestPerTimeFrame, cfg.rateLimiter.TimeFram)
 
 	// Sendgrid
 	// mailer := mailer.NewSendGrid(cfg.mail.fromEmail, cfg.mail.sendGrid.apiKey)
@@ -125,6 +133,7 @@ func main() {
 		logger:        logger,
 		mailer:        mailtrap,
 		authenticator: jwtAuthenticator,
+		ratelimiter:   ratelimiter,
 	}
 	mux := app.mount()
 	logger.Fatal(app.run(mux))

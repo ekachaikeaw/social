@@ -124,7 +124,7 @@ func (app *application) checkRolePrecedence(c context.Context, user *store.User,
 		return false, err
 	}
 
-	return user.Role.Level >= role.Level, nil 
+	return user.Role.Level >= role.Level, nil
 }
 
 func (app *application) getUser(c context.Context, userID int64) (*store.User, error) {
@@ -151,3 +151,15 @@ func (app *application) getUser(c context.Context, userID int64) (*store.User, e
 	return user, err
 }
 
+func (app *application) RateLimiterMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if app.config.rateLimiter.Enable {
+			if allow, retryAfrer := app.ratelimiter.Allow(r.RemoteAddr); !allow{
+				app.rateLimitExeededResponse(w, r, retryAfrer.String())
+				return
+			}
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
