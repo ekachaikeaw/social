@@ -1,6 +1,10 @@
 include .envrc 
 MIGRATIONS_PATH = /db/migrations
 
+.PHONY: test
+test:
+	@go test -v ./...
+
 .PHONY: migrate-create
 migration:
 	@docker run -it --rm -v ./internal/db:/db --network host migrate/migrate create -seq -ext sql -dir $(MIGRATIONS_PATH) $(filter-out $@,$(MAKECMDGOALS))
