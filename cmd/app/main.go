@@ -1,6 +1,8 @@
 package main
 
 import (
+	"expvar"
+	"runtime"
 	"time"
 
 	"github.com/ekachaikeaw/social/internal/auth"
@@ -86,6 +88,7 @@ func main() {
 	logger := zap.Must(config.Build()).Sugar()
 	defer logger.Sync()
 
+	// ratelimiter
 	ratelimiter := ratelimiter.NewFixedWindowRateLimiter(cfg.rateLimiter.RequestPerTimeFrame, cfg.rateLimiter.TimeFram)
 
 	// Sendgrid
@@ -135,6 +138,16 @@ func main() {
 		authenticator: jwtAuthenticator,
 		ratelimiter:   ratelimiter,
 	}
+
+	// Metrics collected
+	expvar.NewString("version").Set(version)
+	expvar.Publish("database", expvar.Func(func() any {
+		return db.Stats()
+	}))
+	expvar.Publish("goroutines", expvar.Func(func() any {
+		return runtime.NumGoroutine()
+	}))
+
 	mux := app.mount()
 	logger.Fatal(app.run(mux))
 }
