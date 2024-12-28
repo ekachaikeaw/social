@@ -16,6 +16,8 @@ import (
 	"go.uber.org/zap"
 )
 
+const version = "0.0.1"
+
 //	@title			GopherSocial API
 //	@description	API for GopherSocial.
 //	@termsOfService	http://swagger.io/terms/
