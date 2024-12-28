@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/ekachaikeaw/social/compare/v1.1.0...v1.1.1) (2024-12-28)
+
+
+### Bug Fixes
+
+* change file name on git add automation ([500dddc](https://github.com/ekachaikeaw/social/commit/500dddc14ab1ef8f3eab32b26685010479216b30))
+
 ## [1.1.0](https://github.com/ekachaikeaw/social/compare/v1.0.0...v1.1.0) (2024-12-28)
 
 
