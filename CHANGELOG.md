@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/ekachaikeaw/social/compare/v1.1.2...v1.2.0) (2024-12-28)
+
+
+### Features
+
+* dockerfile ([4b94d86](https://github.com/ekachaikeaw/social/commit/4b94d8607379efb066a31a61c0087bd4ac727277))
+
+
+### Bug Fixes
+
+* move version from api to main ([7724e60](https://github.com/ekachaikeaw/social/commit/7724e6067cb7b25c881556577bc936886f60ded1))
+
 ## [1.1.2](https://github.com/ekachaikeaw/social/compare/v1.1.1...v1.1.2) (2024-12-28)
 
 
