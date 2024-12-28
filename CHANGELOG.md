@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/ekachaikeaw/social/compare/v1.0.0...v1.1.0) (2024-12-28)
+
+
+### Features
+
+* update api version automatically ([ec94a2d](https://github.com/ekachaikeaw/social/commit/ec94a2df9ff9c8f94fcb4757d2dbbe6660c509b3))
+
 ## 1.0.0 (2024-12-28)
 
 
